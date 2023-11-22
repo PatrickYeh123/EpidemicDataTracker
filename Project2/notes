@@ -1,0 +1,71 @@
+  use a queue, priority queue for BFS, Dijkstra
+
+  disjointSet for connecting threshold  // implement a helper 
+    using a backing array 
+
+
+data structures: 
+    Hashmap: nodeNames->hashMap[nodeNeighbors->weight]
+    priority_queue toVisit: sort on smallest distance as highest priority
+    unordered_set visited: track all nodes we visited
+    hashMap previous: mark which node edges we'll use in the returning the path
+
+shortest_weighted:
+    add (start, start, 0) to pq
+    // do a special case if start == end
+    if (start == end) 
+        return [(start, start, 0)]
+    while (pq not empty) 
+        pop (from, to, dist)
+        if (to == end):
+            while (to != start)
+                add (prev[to], to, nodeNames[prev[to]][to]) to stack
+                to = prev[to]
+            while (stack not empty)
+                results.push_back(stack.top())
+                stack.pop()
+            return results
+
+        if (to not visited):
+            add "to" to visited
+            previous[to] = from // fixes issue
+            for all to.nbr not in visited
+                add (to, to.nbr, dist + weight) to pq
+                
+    
+    return results // there is no path, so empty
+
+
+DS:
+    unordered_set unvisited <labels of the nodes>
+    queue for BFS
+    unordered_set c for connected_components <labels of nodes>
+    // might want to make a vector since we're making a vector of vectors
+connected_components
+    Initialize all nodes in the graph to "unvisited"
+    While there are still unvisited nodes:
+    Arbitrarily choose one of the remaining unvisited nodes (call it u)
+    Perform BFS starting at u, and store all nodes visited in the BFS (including u) in a set c
+    // check for threshold in the BFS
+    Once BFS is complete, output c as a component of the graph
+
+
+Creating disjoint_set:
+    DS:    // need a way to keep track of what labels in disjoint_set, keep track in a vector, etc
+        map for keeping track of pointers  A, B, C, D [2 -1 1 2]
+        map for keeping track of size underneath an element
+    needs to do union(x, y) connect two sentinels and find(x) return nodes
+    union(x, y) will use find() to get x, y's sentinels
+    find()
+        needs to use path compression
+        store visited nodes during traversal in an unordered_set
+        get sentinel by following pointers until -1
+        iterate through set and set the pointers to the found sentinel
+
+
+smallest_connecting_threshold
+    Create a Disjoint Set containing all nodes in the graph, each in their own set
+    For each edge (x,y,w) between nodes x and y with weight w increasing order of edge weight:
+    Perform union(x,y)
+    If find(u) is equal to find(v) (meaning u and v, the function arguments, are now in the same set), return w as the smallest connecting threshold
+    If we get here, u and v were never connected, so no such threshold exists

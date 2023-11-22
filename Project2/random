@@ -1,0 +1,20 @@
+  hash map: 
+    key (string label) -> value (node object)  pairs of (neighbor, dists)
+    hash to another hash map containing neighbors key: neighbor val: dists
+
+    hash to another hash map
+ use unordered maps
+
+
+
+  use a queue, priority queue for BFS, Dijkstra
+
+  disjointSet for connecting threshold  // implement a helper 
+    using a backing array 
+
+
+
+
+
+
+
